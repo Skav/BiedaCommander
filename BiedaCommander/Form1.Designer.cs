@@ -30,7 +30,6 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -42,7 +41,6 @@
             this.Nazwa2 = new System.Windows.Forms.ColumnHeader();
             this.Data_utworzenia2 = new System.Windows.Forms.ColumnHeader();
             this.label2 = new System.Windows.Forms.Label();
-            this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -207,13 +205,11 @@
 
         private MenuStrip menuStrip1;
         private ToolStripMenuItem plikToolStripMenuItem;
-        private FolderBrowserDialog folderBrowserDialog1;
         private SplitContainer splitContainer1;
         private Label label1;
         private ListView listView1;
         private ListView listView2;
         private Label label2;
-        private FolderBrowserDialog folderBrowserDialog2;
         private ColumnHeader Nazwa1;
         private ColumnHeader Data_utworzenia1;
         private ColumnHeader Nazwa2;
