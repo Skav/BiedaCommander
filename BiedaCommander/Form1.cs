@@ -1,5 +1,7 @@
 using Microsoft.VisualBasic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace BiedaCommander
 {
@@ -23,20 +25,10 @@ namespace BiedaCommander
 
         private void drawField(Label label, ListView view, string pathToDir)
         {
-
             if (pathToDir == null) { return; }      
-
             label.Text = pathToDir;
-            view.Items.Clear();
 
-            DirectoryInfo dir = new DirectoryInfo(pathToDir);
-            FileSystemInfo[] allElements = dir.GetFileSystemInfos();
-            foreach (var item in allElements)
-            {
-                var listViewItem = new ListViewItem(item.Name);
-                listViewItem.SubItems.Add(item.CreationTime.ToString());
-                view.Items.Add(listViewItem);
-            }
+            fillColumns(view, pathToDir);
         }
 
         private void drawField(Label label, ListView view, DirectoryInfo pathToDir)
@@ -46,9 +38,23 @@ namespace BiedaCommander
             label.Text = pathToDir.Parent.ToString();
             view.Items.Clear();
 
-            var dir = new DirectoryInfo(pathToDir.Parent.ToString());
+            fillColumns(view, pathToDir.Parent.ToString());
+        }
+
+        private void fillColumns(ListView view, string pathToDir)
+        {
+            view.Items.Clear();
+
+            DirectoryInfo dir = new DirectoryInfo(pathToDir);
             FileSystemInfo[] allElements = dir.GetFileSystemInfos();
-            foreach (FileSystemInfo item in allElements)
+
+            if (dir.Parent != null)
+            {
+                var backItem = new ListViewItem("[..]");
+                view.Items.Add(backItem);
+            }
+
+            foreach (var item in allElements)
             {
                 var listViewItem = new ListViewItem(item.Name);
                 listViewItem.SubItems.Add(item.CreationTime.ToString());
@@ -83,7 +89,13 @@ namespace BiedaCommander
             {
                 string name = Interaction.InputBox("Podaj nazwe pliku", "Nazwa pliku", "", 300, 300);
 
-                if (name == null || name == "" || IsValidFilename(name))
+                if (name == null || name == "")
+                {
+                    MessageBox.Show("Musisz podaæ nazwe folderu!");
+                    return;
+                }
+
+                if (!IsValidFilename(name))
                 {
                     MessageBox.Show("Nieprawid³owa nazwa folderu!");
                     return;
@@ -106,7 +118,7 @@ namespace BiedaCommander
                     string filePath = $"{dirInfo.FullName}\\{view.SelectedItems[i].Text}";
                     var attr = File.GetAttributes(filePath);
 
-                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    if (attr.HasFlag(FileAttributes.Directory))
                     {
                         try
                         {
@@ -128,12 +140,31 @@ namespace BiedaCommander
             drawField(label2, listView2, label2.Text.ToString());
         }
 
+        private void doubleClickActions(ListView view, Label label, string fileName)
+        {
+            if (fileName == "[..]")
+            {
+                if (label.Text == null || label.Text == "") { return; }
+                var directory = new DirectoryInfo(label.Text);
+                drawField(label, view, directory.Parent.ToString());
+            }
+            else
+            {
+                var currPath = label.Text;
+                var fileFullPath = Path.Combine(currPath, fileName);
+                var attr = File.GetAttributes(fileFullPath);
+
+                if (!attr.HasFlag(FileAttributes.Directory))
+                    return;
+
+                drawField(label, view, fileFullPath);
+            }
+        }
+
         private bool IsValidFilename(string fileName)
         {
-            Regex containsABadCharacter = new Regex($"[{Regex.Escape(new string(Path.GetInvalidPathChars()))}]");
-            if (containsABadCharacter.IsMatch(fileName)) { return false; };
-
-            return true;
+            return (!string.IsNullOrEmpty(fileName) &&
+              fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -172,7 +203,7 @@ namespace BiedaCommander
             this.listView1.Sort();
         }
 
-        private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void listView2_ColumnClick_1(object sender, ColumnClickEventArgs e)
         {
             SortColumn(e.Column);
             this.listView2.Sort();
@@ -192,6 +223,18 @@ namespace BiedaCommander
             int keyId = e.KeyValue;
 
             fKeyActions(keyId, currentDir, listView2);
+        }
+
+        private void listView1_DoubleClick_1(object sender, EventArgs e)
+        {
+            var fileName = listView1.SelectedItems[0].Text;
+            doubleClickActions(listView1, label1, fileName);
+        }
+
+        private void listView2_DoubleClick(object sender, EventArgs e)
+        {
+            var fileName = listView2.SelectedItems[0].Text;
+            doubleClickActions(listView2, label2, fileName);
         }
     }
 }
