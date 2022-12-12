@@ -32,10 +32,12 @@
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Nazwa1 = new System.Windows.Forms.ColumnHeader();
             this.Data_utworzenia1 = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.listView2 = new System.Windows.Forms.ListView();
             this.Nazwa2 = new System.Windows.Forms.ColumnHeader();
             this.Data_utworzenia2 = new System.Windows.Forms.ColumnHeader();
@@ -72,16 +74,27 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
             this.splitContainer1.Panel1.Controls.Add(this.listView1);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.comboBox2);
             this.splitContainer1.Panel2.Controls.Add(this.listView2);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Size = new System.Drawing.Size(972, 426);
             this.splitContainer1.SplitterDistance = 487;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(12, 9);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(40, 23);
+            this.comboBox1.TabIndex = 3;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // listView1
             // 
@@ -91,7 +104,7 @@
             this.Data_utworzenia1});
             this.listView1.Location = new System.Drawing.Point(12, 35);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(469, 388);
+            this.listView1.Size = new System.Drawing.Size(470, 388);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -115,10 +128,20 @@
             // 
             this.label1.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(58, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(469, 23);
+            this.label1.Size = new System.Drawing.Size(422, 23);
             this.label1.TabIndex = 0;
+            this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(3, 6);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(40, 23);
+            this.comboBox2.TabIndex = 7;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // listView2
             // 
@@ -128,7 +151,7 @@
             this.Data_utworzenia2});
             this.listView2.Location = new System.Drawing.Point(3, 32);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(451, 388);
+            this.listView2.Size = new System.Drawing.Size(470, 388);
             this.listView2.TabIndex = 6;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -152,10 +175,11 @@
             // 
             this.label2.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(3, 6);
+            this.label2.Location = new System.Drawing.Point(49, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(451, 23);
+            this.label2.Size = new System.Drawing.Size(424, 23);
             this.label2.TabIndex = 4;
+            this.label2.DoubleClick += new System.EventHandler(this.label2_DoubleClick);
             // 
             // Form1
             // 
@@ -194,5 +218,7 @@
         private ColumnHeader Data_utworzenia1;
         private ColumnHeader Nazwa2;
         private ColumnHeader Data_utworzenia2;
+        private ComboBox comboBox1;
+        private ComboBox comboBox2;
     }
 }

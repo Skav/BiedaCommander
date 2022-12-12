@@ -10,7 +10,7 @@ namespace BiedaCommander
     {
         public static void drawField(Label label, ListView view, string pathToDir)
         {
-            if (pathToDir == null) { return; }
+            if (pathToDir == null || pathToDir == "") { return; }
             label.Text = pathToDir;
 
             fillColumns(view, pathToDir);

@@ -9,6 +9,7 @@ namespace BiedaCommander
 {
     public partial class Form1 : Form
     {
+        private DriveInfo[] drives;
         private ListViewColumnSorter lvcSorter;
         public Form1()
         {
@@ -16,6 +17,7 @@ namespace BiedaCommander
             lvcSorter= new ListViewColumnSorter();
             this.listView1.ListViewItemSorter = lvcSorter;
             this.listView2.ListViewItemSorter = lvcSorter;
+            this.drives = DriveInfo.GetDrives();
         }
 
         public void SortColumn(int colNum)
@@ -42,8 +44,19 @@ namespace BiedaCommander
         private void Form1_Load(object sender, EventArgs e)
         {
             var directory = Directory.GetCurrentDirectory();
+            var currentDrive = Path.GetPathRoot(directory);
+            AddDriveToComboBox(comboBox1);
+            AddDriveToComboBox(comboBox2);
+            comboBox1.SelectedText = currentDrive;
+            comboBox2.SelectedText = currentDrive;
             ItemLabelOperator.drawField(label1, listView1, directory);
             ItemLabelOperator.drawField(label2, listView2, directory);   
+        }
+
+        private void AddDriveToComboBox(ComboBox combobox)
+        {
+            foreach(var drive in drives)
+                combobox.Items.Add(drive);
         }
 
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -116,6 +129,30 @@ namespace BiedaCommander
             if (items == null) return;
 
             ItemLabelOperator.manageDragDrop(items, listView2, label2);
+        }
+
+        private void label1_DoubleClick(object sender, EventArgs e)
+        {
+            if(label1.Text != "" && label1.Text != null)
+                Clipboard.SetText(label1.Text);
+        }
+
+        private void label2_DoubleClick(object sender, EventArgs e)
+        {
+            if (label2.Text != "" && label2.Text != null)
+                Clipboard.SetText(label2.Text);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.ToString() != "" && comboBox1.SelectedItem.ToString() != null)
+                ItemLabelOperator.drawField(label1, listView1, comboBox1.SelectedItem.ToString());
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedItem.ToString() != "" && comboBox2.SelectedItem.ToString() != null)
+                ItemLabelOperator.drawField(label2, listView2, comboBox2.SelectedItem.ToString());
         }
     }
 }
