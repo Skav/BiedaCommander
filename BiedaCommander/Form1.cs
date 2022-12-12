@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -113,11 +114,21 @@ namespace BiedaCommander
                 var selectedItems = view.SelectedItems.Count;
                 var dirInfo = new DirectoryInfo(currentDir);
 
+                var errMessages = new List<string> { };
                 for (int i = 0; i < selectedItems; i++)
                 {
                     string filePath = $"{dirInfo.FullName}\\{view.SelectedItems[i].Text}";
-                    var attr = File.GetAttributes(filePath);
 
+                    if (!File.Exists(filePath))
+                    {
+                        if (!Directory.Exists(filePath))
+                        {
+                            errMessages.Add(view.SelectedItems[i].Text);
+                            continue;
+                        }
+                    }
+
+                    var attr = File.GetAttributes(filePath);
                     if (attr.HasFlag(FileAttributes.Directory))
                     {
                         try
@@ -135,6 +146,17 @@ namespace BiedaCommander
                     else
                         File.Delete(filePath);
                 }
+
+                if(errMessages.Count > 0)
+                {
+                    string listOfFiles = "";
+                    foreach (var errFile in errMessages) 
+                        listOfFiles += $"{errFile},";
+
+                    listOfFiles.Remove(listOfFiles.Length - 1);
+                    MessageBox.Show($"Nie mo¿na by³o znaleœæ plików: {listOfFiles}");
+                }
+
             }
             drawField(label1, listView1, label1.Text.ToString());
             drawField(label2, listView2, label2.Text.ToString());
@@ -158,6 +180,73 @@ namespace BiedaCommander
                     return;
 
                 drawField(label, view, fileFullPath);
+            }
+        }
+
+        private void manageDragDrop(string[] items, ListView view, Label label)
+        {
+            foreach (string path in items)
+            {
+                if (!File.Exists(path))
+                    if (!Directory.Exists(path)) continue;
+
+
+                var currentDir = label.Text;
+                var fileName = Path.GetFileName(path);
+
+                if (File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+                    copyFolder(currentDir, path, fileName);
+                else
+                    copyFile(currentDir, path, fileName);
+            }
+
+            drawField(label, view, label.Text);
+        }
+
+        private void copyFile(string destination, string source, string fileName)
+        {
+            if (File.Exists(Path.Combine(destination, fileName)))
+            {
+                DialogResult dr = MessageBox.Show($"Plik o nazwie {fileName} juz istnieje, nadpisac?", "Plik istnieje", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                    File.Copy(source, Path.Combine(destination, fileName), true);
+                else
+                    return;
+            }
+            else
+                File.Copy(source, Path.Combine(destination, fileName));
+        }
+
+        private void copyFolder(string destination, string source, string fileName)
+        {
+            var fullDestinationPath = Path.Combine(destination, fileName);
+            if (Directory.Exists(fullDestinationPath))
+            {
+                DialogResult dr = MessageBox.Show($"Folder o nazwie {fileName} juz istnieje, usun¹c i stworzyæ nowy?", "Folder istnieje", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                {
+                    Directory.Delete(fullDestinationPath, true);
+                    CloneDirectory(source, fullDestinationPath);
+                }
+                else
+                    return;
+            }
+            else
+                CloneDirectory(source, fullDestinationPath);
+        }
+
+        private static void CloneDirectory(string source, string destination)
+        {
+            foreach (var directory in Directory.GetDirectories(source))
+            {
+                var newDirectory = Path.Combine(destination, Path.GetFileName(directory));
+                Directory.CreateDirectory(newDirectory);
+                CloneDirectory(directory, newDirectory);
+            }
+
+            foreach (var file in Directory.GetFiles(source))
+            {
+                File.Copy(file, Path.Combine(destination, Path.GetFileName(file)));
             }
         }
 
@@ -235,6 +324,34 @@ namespace BiedaCommander
         {
             var fileName = listView2.SelectedItems[0].Text;
             doubleClickActions(listView2, label2, fileName);
+        }
+
+        private void listView1_DragEnter(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listView1_DragDrop(object sender, DragEventArgs e)
+        {
+            var items = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (items == null) return;
+
+            manageDragDrop(items, listView1, label1);
+        }
+
+        private void listView2_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void listView2_DragDrop(object sender, DragEventArgs e)
+        {
+            var items = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if (items == null) return;
+
+            manageDragDrop(items, listView2, label2);
         }
     }
 }
