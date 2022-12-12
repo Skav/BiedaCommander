@@ -133,6 +133,36 @@ namespace BiedaCommander
             }
         }
 
+        public static void ChangeName(ListView.SelectedListViewItemCollection selectedFiles, string filePath)
+        {
+
+            if (selectedFiles.Count == 0)
+                return;
+
+            string fileName = selectedFiles[0].Text;
+            string fullFilePath = Path.Combine(filePath, fileName);
+            string newFileName = Interaction.InputBox("Podaj nową nazwe", "Nazwa pliku", "", 300, 300);
+
+            if (!IsValidFilename(newFileName))
+            {
+                MessageBox.Show("Nieprawidłowa nazwa pliku!");
+                return;
+            }
+            string newFullFilePath = Path.Combine(filePath, newFileName);
+
+            if (File.Exists(newFullFilePath) || Directory.Exists(newFullFilePath))
+            {
+                MessageBox.Show("Plik o podanej nazwie juz istnieje!");
+                return;
+            }
+
+            
+            if (File.GetAttributes(fullFilePath).HasFlag(FileAttributes.Directory))
+                Directory.Move(fullFilePath, newFullFilePath);
+            else
+                File.Move(fullFilePath, newFullFilePath);
+        }
+
         private static bool IsValidFilename(string fileName)
         {
             return (!string.IsNullOrEmpty(fileName) &&

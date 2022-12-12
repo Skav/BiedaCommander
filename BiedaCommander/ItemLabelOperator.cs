@@ -39,7 +39,11 @@ namespace BiedaCommander
 
         public static void fKeyActions(int keyId, string currentDir, ListView view)
         {
-            if (keyId == 118)
+            if (keyId == 117) 
+            {
+                FilesOperator.ChangeName(view.SelectedItems, currentDir);
+            }
+            else if (keyId == 118)
             {
                 FilesOperator.CreateFile(currentDir);
 
