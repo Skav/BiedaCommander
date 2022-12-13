@@ -73,20 +73,29 @@ namespace BiedaCommander
 
         private void listView1_KeyDown(object sender, KeyEventArgs e)
         {
-            string currentDir = label1.Text.ToString();
             int keyId = e.KeyValue;
+            if (!ItemLabelOperator.usedKeyIds.Contains(keyId))
+                return;
 
-            ItemLabelOperator.fKeyActions(keyId, currentDir, listView1);
+            string currentDir = label1.Text.ToString();
+            string targetDir = label2.Text.ToString();
+            
+            ItemLabelOperator.fKeyActions(keyId, currentDir, targetDir, listView1);
             ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
             ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
         }
 
         private void listView2_KeyDown(object sender, KeyEventArgs e)
         {
-            string currentDir = label2.Text.ToString();
             int keyId = e.KeyValue;
+            if (!ItemLabelOperator.usedKeyIds.Contains(keyId))
+                return;
 
-            ItemLabelOperator.fKeyActions(keyId, currentDir, listView2);
+            string currentDir = label2.Text.ToString();
+            string targetDir = label1.Text.ToString();
+            
+
+            ItemLabelOperator.fKeyActions(keyId, currentDir, targetDir, listView2);
             ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
             ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
         }

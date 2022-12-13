@@ -8,6 +8,7 @@ namespace BiedaCommander
 {
     public static class ItemLabelOperator
     {
+        public static readonly int[] usedKeyIds = new int[] { 119, 118, 117, 116 };
         public static void drawField(Label label, ListView view, string pathToDir)
         {
             if (pathToDir == null || pathToDir == "") { return; }
@@ -37,20 +38,22 @@ namespace BiedaCommander
             }
         }
 
-        public static void fKeyActions(int keyId, string currentDir, ListView view)
+        public static void fKeyActions(int keyId, string currentDir, string targetDir, ListView view)
         {
-            if (keyId == 117) 
+            switch (keyId)
             {
-                FilesOperator.ChangeName(view.SelectedItems, currentDir);
-            }
-            else if (keyId == 118)
-            {
-                FilesOperator.CreateFile(currentDir);
-
-            }
-            else if (keyId == 119)
-            {
-                FilesOperator.RemoveFile(view.SelectedItems, currentDir);
+                case 116:
+                    FilesOperator.ChangeLocation(view, currentDir, targetDir);
+                    break;
+                case 117:
+                    FilesOperator.ChangeName(view.SelectedItems, currentDir);
+                    break;
+                case 118:
+                    FilesOperator.CreateFile(currentDir);
+                    break;
+                case 119:
+                    FilesOperator.RemoveFile(view.SelectedItems, currentDir);
+                    break;
             }
         }
 

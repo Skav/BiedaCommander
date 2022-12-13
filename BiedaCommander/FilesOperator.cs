@@ -163,6 +163,24 @@ namespace BiedaCommander
                 File.Move(fullFilePath, newFullFilePath);
         }
 
+        public static void ChangeLocation(ListView view, string currentDir, string targetDir)
+        {
+            for(int i = 0; i < view.SelectedItems.Count; i++)
+            {
+                string filePath = Path.Combine(currentDir, view.SelectedItems[i].Text);
+                string newFilePath = Path.Combine(targetDir, view.SelectedItems[i].Text);
+
+                if (Path.Equals(filePath, newFilePath))
+                    continue;
+
+                if (File.GetAttributes(filePath).HasFlag(FileAttributes.Directory))
+                    Directory.Move(filePath, newFilePath);
+                else
+                    File.Move(filePath, newFilePath);
+            }
+
+        }
+
         private static bool IsValidFilename(string fileName)
         {
             return (!string.IsNullOrEmpty(fileName) &&
