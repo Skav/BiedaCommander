@@ -56,7 +56,7 @@ namespace BiedaCommander
             }
         }
 
-        public static void CreateFile(string fileName, string currentDir)
+        public static void CreateDirectory(string fileName, string currentDir)
         {
             if (fileName == null || fileName == "")
             {
@@ -78,10 +78,10 @@ namespace BiedaCommander
                 Directory.CreateDirectory(newFilePath);
         }
 
-        public static void CreateFile(string currentDir)
+        public static void CreateDirectory(string currentDir)
         {
-            string fileName = Interaction.InputBox("Podaj nazwe pliku", "Nazwa pliku", "", 300, 300);
-            CreateFile(fileName, currentDir);
+            string fileName = Interaction.InputBox("Podaj nazwe folderu", "Nazwa folderu", "", 300, 300);
+            CreateDirectory(fileName, currentDir);
         }
 
         public static void RemoveFile(ListView.SelectedListViewItemCollection fileList, string currentDir)
@@ -163,9 +163,25 @@ namespace BiedaCommander
                 File.Move(fullFilePath, newFullFilePath);
         }
 
+        private static void MoveDirectory(string currPath, string newPath)
+        {
+            if (Directory.Exists(newPath))
+                MessageBox.Show($"Folder o nazwie {Path.GetFileName(currPath)} już istnieje");
+            else
+                Directory.Move(currPath, newPath);
+        }
+
+        private static void MoveFile(string currPath, string newPath)
+        {
+            if (File.Exists(newPath))
+                MessageBox.Show($"Plik o nazwie {Path.GetFileName(currPath)} już istnieje");
+            else
+                File.Move(currPath, newPath);
+        }
+
         public static void ChangeLocation(ListView view, string currentDir, string targetDir)
         {
-            for(int i = 0; i < view.SelectedItems.Count; i++)
+            for (int i = 0; i < view.SelectedItems.Count; i++)
             {
                 string filePath = Path.Combine(currentDir, view.SelectedItems[i].Text);
                 string newFilePath = Path.Combine(targetDir, view.SelectedItems[i].Text);
@@ -174,11 +190,37 @@ namespace BiedaCommander
                     continue;
 
                 if (File.GetAttributes(filePath).HasFlag(FileAttributes.Directory))
-                    Directory.Move(filePath, newFilePath);
+                    MoveDirectory(filePath, newFilePath);
                 else
-                    File.Move(filePath, newFilePath);
+                    try
+                    {
+                        MoveFile(filePath, newFilePath);
+                    }
+                    catch (IOException e)
+                    {
+                        MessageBox.Show($"Plik {view.SelectedItems[i].Text} nie może być przeniesiony, ponieważ jest używany przez inny proces");
+                        continue;
+                    }
             }
+        }
 
+        public static void ChangeFileLocation(string currentFileDir, string targetDir)
+        {
+
+            if (Path.Equals(currentFileDir, targetDir))
+                return;
+
+            if (File.GetAttributes(currentFileDir).HasFlag(FileAttributes.Directory))
+                MoveDirectory(currentFileDir, targetDir);
+            else
+                try
+                {
+                    MoveFile(currentFileDir, targetDir);
+                }
+                catch (IOException e)
+                {
+                    MessageBox.Show($"Plik {Path.GetFileName(currentFileDir)} nie może być przeniesiony, ponieważ jest używany przez inny proces");
+                }
         }
 
         private static bool IsValidFilename(string fileName)

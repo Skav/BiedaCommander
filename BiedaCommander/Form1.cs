@@ -11,6 +11,7 @@ namespace BiedaCommander
     {
         private DriveInfo[] drives;
         private ListViewColumnSorter lvcSorter;
+        private ImageList imgList = new ImageList();
         public Form1()
         {
             InitializeComponent();
@@ -43,6 +44,14 @@ namespace BiedaCommander
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            string currentDir = Environment.CurrentDirectory;
+            imgList.ImageSize = new Size(24, 24);
+            imgList.Images.Add(Image.FromFile("img\\file-regular-24.png"));
+            imgList.Images.Add(Image.FromFile("img\\folder-regular-24.png"));
+            listView1.SmallImageList = imgList;
+            listView2.SmallImageList = imgList;
+
+
             var directory = Directory.GetCurrentDirectory();
             var currentDrive = Path.GetPathRoot(directory);
             AddDriveToComboBox(comboBox1);
@@ -121,9 +130,23 @@ namespace BiedaCommander
         private void listView1_DragDrop(object sender, DragEventArgs e)
         {
             var items = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (items == null) return;
+            if (items == null)
+            {
+                var selectedItems = (List<ListViewItem>)e.Data.GetData(typeof(List<ListViewItem>));
+                if (selectedItems == null)
+                    return;
 
-            ItemLabelOperator.manageDragDrop(items, listView1, label1);
+                foreach (var listviewItem in selectedItems)
+                {
+                    string currDir = Path.Combine(label2.Text, listviewItem.Text);
+                    string targetDir = Path.Combine(label1.Text, listviewItem.Text);
+                    FilesOperator.ChangeFileLocation(currDir, targetDir);
+                }
+                ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
+                ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
+            }
+            else
+                ItemLabelOperator.manageDragDrop(items, listView1, label1);
         }
 
         private void listView2_DragEnter(object sender, DragEventArgs e)
@@ -135,9 +158,23 @@ namespace BiedaCommander
         private void listView2_DragDrop(object sender, DragEventArgs e)
         {
             var items = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (items == null) return;
+            if (items == null)
+            {
+                var selectedItems = (List<ListViewItem>)e.Data.GetData(typeof(List<ListViewItem>));
+                if (selectedItems == null)
+                    return;
 
-            ItemLabelOperator.manageDragDrop(items, listView2, label2);
+                foreach(var listviewItem in selectedItems)
+                {
+                    string currDir = Path.Combine(label1.Text, listviewItem.Text);
+                    string targetDir = Path.Combine(label2.Text, listviewItem.Text);
+                    FilesOperator.ChangeFileLocation(currDir, targetDir);
+                }
+                ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
+                ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
+            }
+            else
+                ItemLabelOperator.manageDragDrop(items, listView2, label2);
         }
 
         private void label1_DoubleClick(object sender, EventArgs e)
@@ -162,6 +199,48 @@ namespace BiedaCommander
         {
             if (comboBox2.SelectedItem.ToString() != "" && comboBox2.SelectedItem.ToString() != null)
                 ItemLabelOperator.drawField(label2, listView2, comboBox2.SelectedItem.ToString());
+        }
+
+        private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            var items = new List<ListViewItem>();
+            items.Add((ListViewItem)e.Item);
+            foreach(var lvitem in listView1.SelectedItems)
+            {
+                if (!items.Contains(lvitem))
+                    items.Add((ListViewItem)lvitem);
+            }
+
+            listView1.DoDragDrop(items, DragDropEffects.Move);
+        }
+
+        private void listView1_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(List<ListViewItem>)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+        }
+
+        private void listView2_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(List<ListViewItem>)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+        }
+
+        private void listView2_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            var items = new List<ListViewItem>();
+            items.Add((ListViewItem)e.Item);
+            foreach (var lvitem in listView2.SelectedItems)
+            {
+                if (!items.Contains(lvitem))
+                    items.Add((ListViewItem)lvitem);
+            }
+
+            listView2.DoDragDrop(items, DragDropEffects.Move);
         }
     }
 }

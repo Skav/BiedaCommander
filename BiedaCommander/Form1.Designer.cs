@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -41,6 +40,10 @@
             this.Nazwa2 = new System.Windows.Forms.ColumnHeader();
             this.Data_utworzenia2 = new System.Windows.Forms.ColumnHeader();
             this.label2 = new System.Windows.Forms.Label();
+            this.usuńPlikF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stwórzFolderF7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zmieńNazweF6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przenieśObokF5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -51,18 +54,15 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.plikToolStripMenuItem});
+            this.usuńPlikF8ToolStripMenuItem,
+            this.stwórzFolderF7ToolStripMenuItem,
+            this.zmieńNazweF6ToolStripMenuItem,
+            this.przenieśObokF5ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(972, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // plikToolStripMenuItem
-            // 
-            this.plikToolStripMenuItem.Name = "plikToolStripMenuItem";
-            this.plikToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
-            this.plikToolStripMenuItem.Text = "Plik";
             // 
             // splitContainer1
             // 
@@ -107,8 +107,10 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView1_ColumnClick);
+            this.listView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView1_ItemDrag);
             this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
             this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView1_DragEnter);
+            this.listView1.DragOver += new System.Windows.Forms.DragEventHandler(this.listView1_DragOver);
             this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick_1);
             this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
@@ -154,8 +156,10 @@
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
             this.listView2.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView2_ColumnClick_1);
+            this.listView2.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView2_ItemDrag);
             this.listView2.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView2_DragDrop);
             this.listView2.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView2_DragEnter);
+            this.listView2.DragOver += new System.Windows.Forms.DragEventHandler(this.listView2_DragOver);
             this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
             this.listView2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView2_KeyDown);
             // 
@@ -179,8 +183,33 @@
             this.label2.TabIndex = 4;
             this.label2.DoubleClick += new System.EventHandler(this.label2_DoubleClick);
             // 
+            // usuńPlikF8ToolStripMenuItem
+            // 
+            this.usuńPlikF8ToolStripMenuItem.Name = "usuńPlikF8ToolStripMenuItem";
+            this.usuńPlikF8ToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.usuńPlikF8ToolStripMenuItem.Text = "Usuń plik (F8)";
+            // 
+            // stwórzFolderF7ToolStripMenuItem
+            // 
+            this.stwórzFolderF7ToolStripMenuItem.Name = "stwórzFolderF7ToolStripMenuItem";
+            this.stwórzFolderF7ToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
+            this.stwórzFolderF7ToolStripMenuItem.Text = "Stwórz folder (F7)";
+            // 
+            // zmieńNazweF6ToolStripMenuItem
+            // 
+            this.zmieńNazweF6ToolStripMenuItem.Name = "zmieńNazweF6ToolStripMenuItem";
+            this.zmieńNazweF6ToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
+            this.zmieńNazweF6ToolStripMenuItem.Text = "Zmień nazwe (F6)";
+            // 
+            // przenieśObokF5ToolStripMenuItem
+            // 
+            this.przenieśObokF5ToolStripMenuItem.Name = "przenieśObokF5ToolStripMenuItem";
+            this.przenieśObokF5ToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.przenieśObokF5ToolStripMenuItem.Text = "Przenieś obok (F5)";
+            // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 450);
@@ -204,7 +233,6 @@
         #endregion
 
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem plikToolStripMenuItem;
         private SplitContainer splitContainer1;
         private Label label1;
         private ListView listView1;
@@ -216,5 +244,9 @@
         private ColumnHeader Data_utworzenia2;
         private ComboBox comboBox1;
         private ComboBox comboBox2;
+        private ToolStripMenuItem usuńPlikF8ToolStripMenuItem;
+        private ToolStripMenuItem stwórzFolderF7ToolStripMenuItem;
+        private ToolStripMenuItem zmieńNazweF6ToolStripMenuItem;
+        private ToolStripMenuItem przenieśObokF5ToolStripMenuItem;
     }
 }

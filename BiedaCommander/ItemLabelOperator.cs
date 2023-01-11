@@ -14,25 +14,42 @@ namespace BiedaCommander
             if (pathToDir == null || pathToDir == "") { return; }
             label.Text = pathToDir;
 
-            fillColumns(view, pathToDir);
+            fillColumns(view, label, pathToDir);
         }
 
-        private static void fillColumns(ListView view, string pathToDir)
+        private static void fillColumns(ListView view, Label label, string pathToDir)
         {
             view.Items.Clear();
 
             DirectoryInfo dir = new DirectoryInfo(pathToDir);
-            FileSystemInfo[] allElements = dir.GetFileSystemInfos();
+            FileSystemInfo[] allElements;
+            try
+            {
+                allElements = dir.GetFileSystemInfos();
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                MessageBox.Show("Folder nie istnieje, przenoszenie do katalogu głownego");
+                string mainDir = Path.GetPathRoot(dir.FullName);
+                var mainDirInfo = new DirectoryInfo(mainDir);
+                allElements = mainDirInfo.GetFileSystemInfos();
+                label.Text = mainDirInfo.FullName;
+            }
 
             if (dir.Parent != null)
             {
                 var backItem = new ListViewItem("[..]");
+                backItem.SubItems.Add("");
                 view.Items.Add(backItem);
             }
 
             foreach (var item in allElements)
             {
                 var listViewItem = new ListViewItem(item.Name);
+                if (item.Attributes == FileAttributes.Directory)
+                    listViewItem.ImageIndex = 1;
+                else
+                    listViewItem.ImageIndex = 0;
                 listViewItem.SubItems.Add(item.CreationTime.ToString());
                 view.Items.Add(listViewItem);
             }
@@ -49,7 +66,7 @@ namespace BiedaCommander
                     FilesOperator.ChangeName(view.SelectedItems, currentDir);
                     break;
                 case 118:
-                    FilesOperator.CreateFile(currentDir);
+                    FilesOperator.CreateDirectory(currentDir);
                     break;
                 case 119:
                     FilesOperator.RemoveFile(view.SelectedItems, currentDir);
