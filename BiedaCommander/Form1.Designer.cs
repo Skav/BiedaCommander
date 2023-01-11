@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.usuńPlikF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stwórzFolderF7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zmieńNazweF6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.przenieśObokF5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -40,10 +44,6 @@
             this.Nazwa2 = new System.Windows.Forms.ColumnHeader();
             this.Data_utworzenia2 = new System.Windows.Forms.ColumnHeader();
             this.label2 = new System.Windows.Forms.Label();
-            this.usuńPlikF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stwórzFolderF7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zmieńNazweF6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.przenieśObokF5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -63,6 +63,30 @@
             this.menuStrip1.Size = new System.Drawing.Size(972, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // usuńPlikF8ToolStripMenuItem
+            // 
+            this.usuńPlikF8ToolStripMenuItem.Name = "usuńPlikF8ToolStripMenuItem";
+            this.usuńPlikF8ToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.usuńPlikF8ToolStripMenuItem.Text = "Usuń plik (F8)";
+            // 
+            // stwórzFolderF7ToolStripMenuItem
+            // 
+            this.stwórzFolderF7ToolStripMenuItem.Name = "stwórzFolderF7ToolStripMenuItem";
+            this.stwórzFolderF7ToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
+            this.stwórzFolderF7ToolStripMenuItem.Text = "Stwórz folder (F7)";
+            // 
+            // zmieńNazweF6ToolStripMenuItem
+            // 
+            this.zmieńNazweF6ToolStripMenuItem.Name = "zmieńNazweF6ToolStripMenuItem";
+            this.zmieńNazweF6ToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
+            this.zmieńNazweF6ToolStripMenuItem.Text = "Zmień nazwe (F6)";
+            // 
+            // przenieśObokF5ToolStripMenuItem
+            // 
+            this.przenieśObokF5ToolStripMenuItem.Name = "przenieśObokF5ToolStripMenuItem";
+            this.przenieśObokF5ToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.przenieśObokF5ToolStripMenuItem.Text = "Przenieś obok (F5)";
             // 
             // splitContainer1
             // 
@@ -183,30 +207,6 @@
             this.label2.TabIndex = 4;
             this.label2.DoubleClick += new System.EventHandler(this.label2_DoubleClick);
             // 
-            // usuńPlikF8ToolStripMenuItem
-            // 
-            this.usuńPlikF8ToolStripMenuItem.Name = "usuńPlikF8ToolStripMenuItem";
-            this.usuńPlikF8ToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
-            this.usuńPlikF8ToolStripMenuItem.Text = "Usuń plik (F8)";
-            // 
-            // stwórzFolderF7ToolStripMenuItem
-            // 
-            this.stwórzFolderF7ToolStripMenuItem.Name = "stwórzFolderF7ToolStripMenuItem";
-            this.stwórzFolderF7ToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
-            this.stwórzFolderF7ToolStripMenuItem.Text = "Stwórz folder (F7)";
-            // 
-            // zmieńNazweF6ToolStripMenuItem
-            // 
-            this.zmieńNazweF6ToolStripMenuItem.Name = "zmieńNazweF6ToolStripMenuItem";
-            this.zmieńNazweF6ToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
-            this.zmieńNazweF6ToolStripMenuItem.Text = "Zmień nazwe (F6)";
-            // 
-            // przenieśObokF5ToolStripMenuItem
-            // 
-            this.przenieśObokF5ToolStripMenuItem.Name = "przenieśObokF5ToolStripMenuItem";
-            this.przenieśObokF5ToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
-            this.przenieśObokF5ToolStripMenuItem.Text = "Przenieś obok (F5)";
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -217,7 +217,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "BiedaCommander v0.8";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

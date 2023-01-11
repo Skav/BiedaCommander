@@ -12,9 +12,9 @@ namespace BiedaCommander
         public static void drawField(Label label, ListView view, string pathToDir)
         {
             if (pathToDir == null || pathToDir == "") { return; }
-            label.Text = pathToDir;
 
-            fillColumns(view, label, pathToDir);
+            label.Text = pathToDir;
+            fillColumns(view, label, pathToDir);     
         }
 
         private static void fillColumns(ListView view, Label label, string pathToDir)
@@ -34,6 +34,11 @@ namespace BiedaCommander
                 var mainDirInfo = new DirectoryInfo(mainDir);
                 allElements = mainDirInfo.GetFileSystemInfos();
                 label.Text = mainDirInfo.FullName;
+            }
+            catch(IOException e)
+            {
+                MessageBox.Show("Nie można załadować dysku/folderu");
+                return;
             }
 
             if (dir.Parent != null)
