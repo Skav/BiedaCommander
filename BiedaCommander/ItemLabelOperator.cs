@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,9 +111,24 @@ namespace BiedaCommander
                 var attr = File.GetAttributes(fileFullPath);
 
                 if (!attr.HasFlag(FileAttributes.Directory))
-                    return;
+                {
+                    if (attr.HasFlag(FileAttributes.Archive))
+                    {
+                        try
+                        {
+                            var processInfo = new ProcessStartInfo();
+                            processInfo.FileName = fileFullPath;
+                            processInfo.UseShellExecute = true;
+                            Process.Start(processInfo);
+                        }
+                        catch (Exception e){
+                            MessageBox.Show("Wystapił bład, nie można otworzyć pliku", "Bład");
+                        }
+                    }
 
-                drawField(label, view, fileFullPath);
+                }
+                else
+                    drawField(label, view, fileFullPath);
             }
         }
 
