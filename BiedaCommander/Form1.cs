@@ -46,8 +46,8 @@ namespace BiedaCommander
         {
             string currentDir = Environment.CurrentDirectory;
             imgList.ImageSize = new Size(24, 24);
-            imgList.Images.Add(Image.FromFile("img\\file-regular-24.png"));
-            imgList.Images.Add(Image.FromFile("img\\folder-regular-24.png"));
+            imgList.Images.Add(BiedaCommander.Properties.Resources.file_regular_24);
+            imgList.Images.Add(BiedaCommander.Properties.Resources.folder_regular_24);
             listView1.SmallImageList = imgList;
             listView2.SmallImageList = imgList;
 
@@ -88,7 +88,7 @@ namespace BiedaCommander
 
             string currentDir = label1.Text.ToString();
             string targetDir = label2.Text.ToString();
-            
+
             ItemLabelOperator.fKeyActions(keyId, currentDir, targetDir, listView1);
             ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
             ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
@@ -102,7 +102,6 @@ namespace BiedaCommander
 
             string currentDir = label2.Text.ToString();
             string targetDir = label1.Text.ToString();
-            
 
             ItemLabelOperator.fKeyActions(keyId, currentDir, targetDir, listView2);
             ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
@@ -241,6 +240,26 @@ namespace BiedaCommander
             }
 
             listView2.DoDragDrop(items, DragDropEffects.Move);
+        }
+
+        private void usuñPlikF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemLabelOperator.stripMenuActions(119, listView1, listView2, label1, label2);
+        }
+
+        private void stwórzFolderF7ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemLabelOperator.stripMenuActions(118, listView1, listView2, label1, label2);
+        }
+
+        private void zmieñNazweF6ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemLabelOperator.stripMenuActions(117, listView1, listView2, label1, label2);
+        }
+
+        private void przenieœObokF5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemLabelOperator.stripMenuActions(116, listView1, listView2, label1, label2);
         }
     }
 }

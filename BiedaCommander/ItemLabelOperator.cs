@@ -74,9 +74,25 @@ namespace BiedaCommander
                     FilesOperator.CreateDirectory(currentDir);
                     break;
                 case 119:
-                    FilesOperator.RemoveFile(view.SelectedItems, currentDir);
+                    DialogResult dr = MessageBox.Show("Czy napewno chcesz usunąc pliki?", "Usuwanie plikow", MessageBoxButtons.YesNo);
+                    if (dr == DialogResult.Yes)
+                        FilesOperator.RemoveFile(view.SelectedItems, currentDir);
                     break;
             }
+        }
+
+        public static void stripMenuActions(int keyId, ListView listView1, ListView listView2, Label label1, Label label2)
+        {
+            string firstLabelLocation = label1.Text.ToString();
+            string secondLabelLocation = label2.Text.ToString();
+
+            if (listView1.Focused)
+                ItemLabelOperator.fKeyActions(keyId, firstLabelLocation, secondLabelLocation, listView1);
+            else if (listView2.Focused)
+                ItemLabelOperator.fKeyActions(keyId, secondLabelLocation, firstLabelLocation, listView2);
+
+            ItemLabelOperator.drawField(label1, listView1, label1.Text.ToString());
+            ItemLabelOperator.drawField(label2, listView2, label2.Text.ToString());
         }
 
         public static void doubleClickActions(ListView view, Label label, string fileName)

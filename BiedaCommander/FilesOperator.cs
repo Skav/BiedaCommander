@@ -168,7 +168,25 @@ namespace BiedaCommander
             if (Directory.Exists(newPath))
                 MessageBox.Show($"Folder o nazwie {Path.GetFileName(currPath)} już istnieje");
             else
-                Directory.Move(currPath, newPath);
+            {
+                var currPathInfo = new DirectoryInfo(currPath);
+                var newPathInfo = new DirectoryInfo(newPath);
+                bool isParent = false;
+                while (newPathInfo.Parent != null)
+                {
+                    if (newPathInfo.Parent.FullName == currPathInfo.FullName)
+                    {
+                        isParent = true;
+                        break;
+                    }
+                    else newPathInfo = newPathInfo.Parent;
+                }
+
+                if (isParent)
+                    MessageBox.Show($"Nie możesz przenieść folderu do wnetrza jego samego!");
+                else
+                    Directory.Move(currPath, newPath);
+            }
         }
 
         private static void MoveFile(string currPath, string newPath)

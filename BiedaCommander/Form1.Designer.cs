@@ -69,24 +69,28 @@
             this.usuńPlikF8ToolStripMenuItem.Name = "usuńPlikF8ToolStripMenuItem";
             this.usuńPlikF8ToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
             this.usuńPlikF8ToolStripMenuItem.Text = "Usuń plik (F8)";
+            this.usuńPlikF8ToolStripMenuItem.Click += new System.EventHandler(this.usuńPlikF8ToolStripMenuItem_Click);
             // 
             // stwórzFolderF7ToolStripMenuItem
             // 
             this.stwórzFolderF7ToolStripMenuItem.Name = "stwórzFolderF7ToolStripMenuItem";
             this.stwórzFolderF7ToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
             this.stwórzFolderF7ToolStripMenuItem.Text = "Stwórz folder (F7)";
+            this.stwórzFolderF7ToolStripMenuItem.Click += new System.EventHandler(this.stwórzFolderF7ToolStripMenuItem_Click);
             // 
             // zmieńNazweF6ToolStripMenuItem
             // 
             this.zmieńNazweF6ToolStripMenuItem.Name = "zmieńNazweF6ToolStripMenuItem";
             this.zmieńNazweF6ToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
             this.zmieńNazweF6ToolStripMenuItem.Text = "Zmień nazwe (F6)";
+            this.zmieńNazweF6ToolStripMenuItem.Click += new System.EventHandler(this.zmieńNazweF6ToolStripMenuItem_Click);
             // 
             // przenieśObokF5ToolStripMenuItem
             // 
             this.przenieśObokF5ToolStripMenuItem.Name = "przenieśObokF5ToolStripMenuItem";
             this.przenieśObokF5ToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
             this.przenieśObokF5ToolStripMenuItem.Text = "Przenieś obok (F5)";
+            this.przenieśObokF5ToolStripMenuItem.Click += new System.EventHandler(this.przenieśObokF5ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -217,7 +221,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "BiedaCommander v0.8";
+            this.Text = "BiedaCommander v1.0";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
