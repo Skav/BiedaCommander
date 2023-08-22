@@ -199,26 +199,30 @@ namespace BiedaCommander
 
         public static void ChangeLocation(ListView view, string currentDir, string targetDir)
         {
-            for (int i = 0; i < view.SelectedItems.Count; i++)
+            DialogResult dr = MessageBox.Show($"Czy napewno chcesz przenieść {view.SelectedItems.Count} plików?", "Przeniesienie plików", MessageBoxButtons.YesNoCancel);
+            if (dr == DialogResult.Yes)
             {
-                string filePath = Path.Combine(currentDir, view.SelectedItems[i].Text);
-                string newFilePath = Path.Combine(targetDir, view.SelectedItems[i].Text);
+                for (int i = 0; i < view.SelectedItems.Count; i++)
+                {
+                    string filePath = Path.Combine(currentDir, view.SelectedItems[i].Text);
+                    string newFilePath = Path.Combine(targetDir, view.SelectedItems[i].Text);
 
-                if (Path.Equals(filePath, newFilePath))
-                    continue;
-
-                if (File.GetAttributes(filePath).HasFlag(FileAttributes.Directory))
-                    MoveDirectory(filePath, newFilePath);
-                else
-                    try
-                    {
-                        MoveFile(filePath, newFilePath);
-                    }
-                    catch (IOException e)
-                    {
-                        MessageBox.Show($"Plik {view.SelectedItems[i].Text} nie może być przeniesiony, ponieważ jest używany przez inny proces");
+                    if (Path.Equals(filePath, newFilePath))
                         continue;
-                    }
+
+                    if (File.GetAttributes(filePath).HasFlag(FileAttributes.Directory))
+                        MoveDirectory(filePath, newFilePath);
+                    else
+                        try
+                        {
+                            MoveFile(filePath, newFilePath);
+                        }
+                        catch (IOException e)
+                        {
+                            MessageBox.Show($"Plik {view.SelectedItems[i].Text} nie może być przeniesiony, ponieważ jest używany przez inny proces");
+                            continue;
+                        }
+                }
             }
         }
 
